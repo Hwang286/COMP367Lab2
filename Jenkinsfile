@@ -15,7 +15,7 @@ pipeline {
         stage('Maven Build') {
             steps {
                 // To run Maven on a Windows agent, use
-                 bat "mvn clean compile"
+                 bat "mvn clean package"
             }
 
         }
