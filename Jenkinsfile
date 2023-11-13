@@ -21,7 +21,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    def dockerImage = docker.build("your-docker-username/your-webapp:latest")
+                    def dockerImage = docker.build("hwang286/lab2welcome:latest")
                 }
             }
         }
