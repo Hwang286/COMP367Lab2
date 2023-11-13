@@ -18,19 +18,19 @@ pipeline {
     stage('Docker Build') {
     	agent any
       steps {
-      	sh 'docker build -t hwang286/lab2welcome:latest .'
+      	bat 'docker build -t hwang286/lab2welcome:latest .'
       }
     }
     stage('Docker Login') {
         	agent any
           steps {
-          	sh "echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+          	bat "echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
           }
         }
     stage('Docker Push') {
     	agent any
       steps {
-      	sh 'docker push hwang286/lab2welcome:latest'
+      	bat 'docker push hwang286/lab2welcome:latest'
       }
     }
   }
