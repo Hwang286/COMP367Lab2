@@ -8,11 +8,11 @@ pipeline {
                 jdk "JDK"
     }
 	stages {
-  	stage('Maven Install') {
+  	stage('Maven Build') {
 
       steps {
-        git branch: 'main', url: 'https://github.com/Hwang286/COMP367Lab2.git'
-      	bat 'mvn clean install'
+        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Hwang286/COMP367Lab2.git']])
+      	bat 'mvn clean package'
       }
     }
     stage('Docker Build') {
