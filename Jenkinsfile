@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	environment{
+	    DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
 	tools {
                 maven "MAVEN3"
                 jdk "JDK"
@@ -17,13 +20,16 @@ pipeline {
       	sh 'docker build -t hwang286/lab2welcome:latest .'
       }
     }
+    stage('Docker Login') {
+        	agent any
+          steps {
+          	sh "echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+          }
+        }
     stage('Docker Push') {
     	agent any
       steps {
-      	withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push hwang286/lab2welcome:latest'
-        }
+      	sh 'docker push hwang286/lab2welcome:latest'
       }
     }
   }
