@@ -11,6 +11,7 @@ pipeline {
   	stage('Maven Install') {
 
       steps {
+        git branch: 'main', url: 'https://github.com/Hwang286/COMP367Lab2.git'
       	bat 'mvn clean install'
       }
     }
