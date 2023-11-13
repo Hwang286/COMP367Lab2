@@ -1,5 +1,5 @@
 # Use an official Maven image as a base image
-FROM maven:3.8.4-openjdk-11-slim AS build
+FROM maven:3.8.4-openjdk-17-slim AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -20,4 +20,4 @@ WORKDIR /app
 COPY --from=build /app/target/Lab2welcome.war .
 
 # Specify the command to run on container start
-CMD ["java", "-jar", "your-webapp.jar"]
+CMD ["java", "-jar", "lab2welcome.jar"]
