@@ -1,23 +1,39 @@
 pipeline {
     agent any
-    tools {
-        maven "MAVEN3"
-        jdk "JDK"
-    }
+
     stages {
         stage('Checkout') {
             steps {
-                // Get some code from a GitHub repository
-                git branch: 'main', url: 'https://github.com/Hwang286/COMP367Lab2.git'
-
+                checkout scm
             }
         }
-        stage('Maven Build') {
-            steps {
-                // To run Maven on a Windows agent, use
-                 bat "mvn clean package"
-            }
 
+        stage('Build and Package') {
+            steps {
+                script {
+                    def mavenHome = tool 'Maven'
+                    def mavenCMD = "${mavenHome}/bin/mvn"
+                    sh "${mavenCMD} clean package"
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    def dockerImage = docker.build("your-docker-username/your-webapp:latest")
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials-id') {
+                        dockerImage.push()
+                    }
+                }
+            }
         }
     }
 }
