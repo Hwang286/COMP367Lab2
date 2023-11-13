@@ -14,15 +14,15 @@ pipeline {
     stage('Docker Build') {
     	agent any
       steps {
-      	sh 'docker build -t hwang286/lab2welcome:latest .'
+      	bat 'docker build -t hwang286/lab2welcome:latest .'
       }
     }
     stage('Docker Push') {
     	agent any
       steps {
       	withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push hwang286/lab2welcome:latest'
+        	bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          bat 'docker push hwang286/lab2welcome:latest'
         }
       }
     }
