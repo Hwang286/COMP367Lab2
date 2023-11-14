@@ -18,7 +18,7 @@ pipeline {
     stage('Docker Build') {
     	agent any
       steps {
-      	bat 'docker build -t hwang286/lab2welcome:latest .'
+      	bat 'docker build -t hwang286/lab2welcome .'
       }
     }
     stage('Docker Login') {
@@ -30,7 +30,7 @@ pipeline {
     stage('Docker Push') {
     	agent any
       steps {
-      	bat 'docker push hwang286/lab2welcome:latest'
+      	bat 'docker push hwang286/lab2welcome'
       }
     }
   }
