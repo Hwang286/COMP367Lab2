@@ -1,23 +1,21 @@
-# Use an official Maven image as a base image
-FROM maven:3.8.4-openjdk-17-slim AS build
+# Use the official Maven image as the base image
+FROM maven:3.8.4-jdk-11 AS build
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the project files into the container
-COPY . .
+# Copy the Maven project files
+COPY pom.xml .
+COPY src src
 
 # Build the Maven project
-RUN mvn clean package
+RUN mvn clean install
 
-# Use a smaller base image for the final image
-FROM openjdk:17-jre-slim
+# Use a lightweight base image for the final image
+FROM openjdk:11-jre-slim
 
-# Set the working directory in the container
-WORKDIR /app
+# Copy the JAR file from the build image
+COPY --from=build /app/target/lab2welcome.jar /app/lab2welcome.jar
 
-# Copy the JAR file from the build stage to the final image
-COPY --from=build /app/target/Lab2welcome.war .
-
-# Specify the command to run on container start
-CMD ["java", "-jar", "lab2welcome.jar"]
+# Set the entry point for the application
+ENTRYPOINT ["java", "-jar", "/app/Lab2welcome.jar"]
